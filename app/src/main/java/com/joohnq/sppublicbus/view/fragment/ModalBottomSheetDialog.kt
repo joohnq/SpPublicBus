@@ -21,6 +21,7 @@ class ModalBottomSheetDialog(
     private val busLinesViewmodel: BusLinesViewmodel,
     private val forecastViewModel: ForecastViewmodel,
     private val positionViewmodel: PositionViewmodel,
+    private val onClearStreetRunnersSelection: () -> Unit
 ) {
     private var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>? = null
     private val busLinesWithForecastAdapter: BusLineWithForecastAdapter by lazy {
@@ -71,6 +72,7 @@ class ModalBottomSheetDialog(
         expandHalf()
         includeCustomLoadingPage.root.visibility = View.VISIBLE
         includeCustomErrorPage.root.visibility = View.GONE
+        expandableSearchSectionRv.visibility = View.GONE
     }
 
     private fun ModalBottomSheetBinding.handleOnErrorObserver(error: String) {
@@ -82,6 +84,7 @@ class ModalBottomSheetDialog(
     private fun ModalBottomSheetBinding.handleOnSuccessObserver() {
         includeCustomLoadingPage.root.visibility = View.GONE
         includeCustomErrorPage.root.visibility = View.GONE
+        expandableSearchSectionRv.visibility = View.VISIBLE
     }
 
     private fun ModalBottomSheetBinding.observers() {

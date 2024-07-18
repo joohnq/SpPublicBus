@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             busLinesViewmodel = busLinesViewmodel,
             forecastViewModel = forecastViewModel,
             positionViewmodel = positionViewmodel,
+            onClearStreetRunnersSelection = { binding.streetRunnersRadioGroup.clearCheck() },
             binding = bottomSheetBinding
         )
     }
@@ -114,10 +115,8 @@ class MainActivity : AppCompatActivity() {
                 onSuccess = { req ->
                     initStreetRunners(req)
                 },
-                onError = {
-                },
-                onLoading = {
-                }
+                onError = {},
+                onLoading = {}
             )
         }
     }

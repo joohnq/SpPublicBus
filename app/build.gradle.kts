@@ -35,11 +35,6 @@ android {
             properties.getProperty("API_GOOGLE_MAPS_KEY")
         )
         buildConfigField("String", "API_SP_TRANS_KEY", properties.getProperty("API_SP_TRANS_KEY"))
-        buildConfigField(
-            "String",
-            "API_DIRECTIONS_KEY",
-            properties.getProperty("API_DIRECTIONS_KEY")
-        )
     }
 
     buildTypes {
