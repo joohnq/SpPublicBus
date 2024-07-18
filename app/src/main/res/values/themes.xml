@@ -1,0 +1,82 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AikoDigitalTeste" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+    </style>
+
+    <style name="Theme.AikoDigitalTeste" parent="Base.Theme.AikoDigitalTeste" />
+
+
+    <style name="textInputLayoutStyle">
+        <item name="android:background">@drawable/shape_search</item>
+    </style>
+
+    <style name="textInputEditTextStyle" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <!--        <item name="android:background">@drawable/shape_text_input</item>-->
+    </style>
+
+    <style name="bottom_navigation">
+        <item name="android:fontFamily">@font/open_sans_medium</item>
+    </style>
+
+    <style name="chip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textColor">@color/white</item>
+        <item name="chipIconTint">@null</item>
+        <item name="closeIconTint">@null</item>
+        <item name="android:textSize">10sp</item>
+        <item name="chipCornerRadius">20dp</item>
+        <item name="chipStartPadding">5dp</item>
+        <item name="chipSpacingVertical">5dp</item>
+        <item name="chipSpacingHorizontal">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
+
+    <style name="radioButtonStreetRunner">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/text_street_runner</item>
+        <item name="android:background">@drawable/shape_street_runner_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:fontFamily">@font/open_sans_medium</item>
+    </style>
+
+    <style name="textViewBusLineWithForecast">
+        <item name="android:background">@drawable/shape_5dp_corners</item>
+        <item name="android:backgroundTint">@color/gray2</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <style name="textViewBusLineWithForecastTextStyle">
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="chipGroupBusLine" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipSpacingVertical">5dp</item>
+    </style>
+
+    <style name="chipBusLineText" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+    </style>
+
+    <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_fitToContents">false</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@drawable/shape_modal_bottom_sheet</item>
+    </style>
+</resources>

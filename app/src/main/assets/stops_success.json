@@ -1,0 +1,30 @@
+[
+  {
+    "cp": 340015333,
+    "np": "AFONSO BRAZ C/B1",
+    "ed": "R DOUTORA MARIA AUGUSTA SARAIVA/ R NATIVIDADE",
+    "py": -23.59572,
+    "px": -46.673285
+  },
+  {
+    "cp": 3407215,
+    "np": "AFONSO BRAZ C/B2",
+    "ed": "Rua Santa Justina / Rua Afonso Braz",
+    "py": -23.594375,
+    "px": -46.673018
+  },
+  {
+    "cp": 5306702,
+    "np": "Parada Afonso Braz - B/C 1",
+    "ed": "Rua Brás Cardoso / Baltazar da Veiga",
+    "py": -23.593046,
+    "px": -46.672803
+  },
+  {
+    "cp": 3407216,
+    "np": "Parada Afonso Braz-B/C2",
+    "ed": "Rua Baltazar da Veiga",
+    "py": -23.59464,
+    "px": -46.673018
+  }
+]

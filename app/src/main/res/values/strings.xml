@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">SpPublicBus</string>
+    <string name="acessivel_para_pcd">Acessível para PCD: %1$</string>
+    <string name="letreiro_numero">%1$s - %2$d</string>
+    <string name="terminal_s_p">%1$s / %2$s</string>
+    <string name="home">Home</string>
+    <string name="bus_lines">Bus Lines</string>
+    <string name="street_runners">Street Runners</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="error">Error here</string>
+    <string name="stops">Stops</string>
+    <string name="runner">Runner</string>
+    <string name="latest_update">Latest Update: %1$s</string>
+    <string name="loading_dots">...</string>
+    <string name="type_here">Type here a %1$s</string>
+    <string name="chip">Chip</string>
+    <string name="forecast_text">%1$s at %2$s</string>
+    <string name="stop_name">stop name</string>
+    <string name="bus_line_name">bus line name</string>
+    <string name="letreiro">Letreiro</string>
+    <string name="destiny">Destiny</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="is_accessible">Accessible for PWD: %1$s</string>
+    <string name="vehicle_prefix">Vehicle Prefix: %1$d</string>
+</resources>

@@ -1,0 +1,47 @@
+[
+  {
+    "cl": 841,
+    "lc": false,
+    "lt": "118Y",
+    "sl": 1,
+    "tl": 10,
+    "tp": "LAPA",
+    "ts": "LAUZANE PAULISTA"
+  },
+  {
+    "cl": 33609,
+    "lc": false,
+    "lt": "118Y",
+    "sl": 2,
+    "tl": 10,
+    "tp": "LAPA",
+    "ts": "LAUZANE PAULISTA"
+  },
+  {
+    "cl": 2273,
+    "lc": false,
+    "lt": "119L",
+    "sl": 1,
+    "tl": 10,
+    "tp": "TERM. LAPA",
+    "ts": "VL. SULINA"
+  },
+  {
+    "cl": 35041,
+    "lc": false,
+    "lt": "119L",
+    "sl": 2,
+    "tl": 10,
+    "tp": "TERM. LAPA",
+    "ts": "VL. SULINA"
+  },
+  {
+    "cl": 843,
+    "lc": false,
+    "lt": "128Y",
+    "sl": 1,
+    "tl": 10,
+    "tp": "LAPA",
+    "ts": "JD. PERY ALTO"
+  }
+]
