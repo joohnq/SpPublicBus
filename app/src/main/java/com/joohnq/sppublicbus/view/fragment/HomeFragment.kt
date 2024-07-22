@@ -4,34 +4,75 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 import com.joohnq.sppublicbus.R
+import com.joohnq.sppublicbus.common.helper.RadioButtonHelper
+import com.joohnq.sppublicbus.databinding.ActivityMainBinding
 import com.joohnq.sppublicbus.databinding.FragmentHomeBinding
+import com.joohnq.sppublicbus.databinding.ModalBottomSheetBinding
 import com.joohnq.sppublicbus.model.entity.BusStop
+import com.joohnq.sppublicbus.model.entity.StreetRunner
 import com.joohnq.sppublicbus.model.entity.Vehicle
 import com.joohnq.sppublicbus.model.entity.toCustomMarker
 import com.joohnq.sppublicbus.view.GoogleMapHelper
+import com.joohnq.sppublicbus.view.adapter.SearchSpinnerAdapter
+import com.joohnq.sppublicbus.view.components.hideKeyboard
+import com.joohnq.sppublicbus.viewmodel.BusLinesViewmodel
 import com.joohnq.sppublicbus.viewmodel.ForecastViewmodel
 import com.joohnq.sppublicbus.viewmodel.PositionViewmodel
 import com.joohnq.sppublicbus.viewmodel.StopsViewmodel
+import com.joohnq.sppublicbus.viewmodel.StreetRunnersViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private var selectedStreetRunner: Int = -1
     private val positionViewmodel: PositionViewmodel by activityViewModels()
     private val stopsViewmodel: StopsViewmodel by activityViewModels()
     private val forecastViewmodel: ForecastViewmodel by activityViewModels()
+    private val streetRunnersViewmodel: StreetRunnersViewmodel by activityViewModels()
+    private val forecastViewModel: ForecastViewmodel by activityViewModels()
+    private val busLinesViewmodel: BusLinesViewmodel by activityViewModels()
     private val googleMapHelper: GoogleMapHelper by lazy {
         GoogleMapHelper(
             context = requireContext(),
-            observers = { observers() },
+            observers = ::observers,
             onGetForecastByStop = forecastViewmodel::getForecastByStop
+        )
+    }
+    private val bottomSheetBinding: ModalBottomSheetBinding by lazy {
+        binding.includeBottomSheetLayout
+    }
+    private val bottomSheet: View by lazy {
+        bottomSheetBinding.bottomSheetLayout
+    }
+    private val bottomSheetDialog: ModalBottomSheetDialog by lazy {
+        ModalBottomSheetDialog(
+            viewLifecycleOwner = this,
+            context = requireContext(),
+            bottomSheet = bottomSheet,
+            busLinesViewmodel = busLinesViewmodel,
+            forecastViewModel = forecastViewModel,
+            positionViewmodel = positionViewmodel,
+            onClearStreetRunnersSelection = { binding.streetRunnersRadioGroup.clearCheck() },
+            binding = bottomSheetBinding
+        )
+    }
+    private val customSearchSpinnerAdapter: SearchSpinnerAdapter by lazy {
+        val items = mapOf(
+            getString(R.string.bus_lines) to R.drawable.ic_bus_line,
+            getString(R.string.stops) to R.drawable.ic_stop
+        )
+        SearchSpinnerAdapter(
+            requireContext(),
+            items
         )
     }
 
@@ -40,38 +81,78 @@ class HomeFragment : Fragment() {
         googleMapHelper.setMainCamera()
     }
 
-    private val onLoading = {
-        binding.toggleReloadButton(false)
-    }
-
     private val onError = { error: String ->
-        binding.toggleLoadingState(false)
         Snackbar.make(binding.root, error, Snackbar.LENGTH_SHORT).show()
     }
 
     private val onSuccess = {
         googleMapHelper.clear()
-        binding.toggleLoadingState(false)
+    }
+
+    private fun FragmentHomeBinding.initStreetRunners(streetRunners: List<StreetRunner>) {
+        streetRunners.forEach { r ->
+            val radio = RadioButtonHelper.createStreetRunnerRadioButton(
+                idt = r.cc,
+                value = r.nc,
+                context = requireContext(),
+                onRadioClick = { id ->
+                    bottomSheetDialog.hidden()
+                    if (id == selectedStreetRunner) {
+                        selectedStreetRunner = -1
+                        streetRunnersRadioGroup.clearCheck()
+                        stopsViewmodel.setBusPointsSearchNone()
+                    } else {
+                        selectedStreetRunner = id
+                        stopsViewmodel.getStopsByRunner(id)
+                    }
+                }
+            )
+            streetRunnersRadioGroup.addView(radio)
+        }
+    }
+
+    private fun FragmentHomeBinding.bindButtons() {
+        includeCustomTextInput.apply {
+            textInputLayout.setEndIconOnClickListener {
+                requireActivity().hideKeyboard()
+                textInputEditText.text?.clear()
+                textInputEditText.clearFocus()
+                bottomSheetDialog.hidden()
+                positionViewmodel.setPositionVehicles()
+            }
+            searchButton.setOnClickListener {
+                val text = textInputEditText.text.toString()
+                if (text.isEmpty()) return@setOnClickListener
+
+                requireActivity().hideKeyboard()
+                streetRunnersRadioGroup.clearCheck()
+
+                when (includeCustomTextInput.spinner.selectedItemPosition) {
+                    0 -> busLinesViewmodel.getBusLines(text)
+                    1 -> {
+                        bottomSheetDialog.hidden()
+                        stopsViewmodel.getBusPoints(text)
+                    }
+
+                    else -> return@setOnClickListener
+                }
+            }
+        }
+    }
+
+    private fun FragmentHomeBinding.initToolbar() {
+        includeCustomTextInput.spinner.adapter = customSearchSpinnerAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.bindButtons()
         initMapView()
-    }
-
-    private fun FragmentHomeBinding.bindButtons() {
-        reloadButton.setOnClickListener {
-            positionViewmodel.getPositionVehiclesByBusLines()
-        }
-    }
-
-    private fun FragmentHomeBinding.toggleReloadButton(state: Boolean) {
-        reloadButton.visibility = if (state) View.VISIBLE else View.GONE
-    }
-
-    private fun FragmentHomeBinding.toggleLoadingState(state: Boolean) {
-        includeCustomLoadingPage.visibility = if (state) View.VISIBLE else View.GONE
+        bottomSheetDialog.initialize()
+        streetRunnersViewmodel.getStreetRunners()
+        observers()
+        binding.bindButtons()
+        binding.initToolbar()
     }
 
     override fun onCreateView(
@@ -88,23 +169,14 @@ class HomeFragment : Fragment() {
                 onNone = onNone,
                 onSuccess = { req ->
                     onSuccess()
-                    binding.reloadButton.text = getString(R.string.latest_update, req.hr)
                     googleMapHelper.addMarkers(
                         req.vs,
                         addMarker = { marker: Vehicle ->
                             val customMarker = marker.toCustomMarker()
                             googleMapHelper.addMarker(customMarker)
                         },
-                        onFinish = {
-                            binding.toggleReloadButton(true)
-                        }
                     )
 
-                },
-                onLoading = {
-                    onLoading()
-                    binding.reloadButton.text =
-                        getString(R.string.latest_update, getString(R.string.loading_dots))
                 },
                 onError = onError
             )
@@ -112,7 +184,6 @@ class HomeFragment : Fragment() {
         stopsViewmodel.busPointsSearch.observe(viewLifecycleOwner) { state ->
             state.fold(
                 onNone = onNone,
-                onLoading = onLoading,
                 onError = onError,
                 onSuccess = { req: List<BusStop> ->
                     onSuccess()
@@ -124,6 +195,15 @@ class HomeFragment : Fragment() {
                         }
                     )
                 },
+            )
+        }
+        streetRunnersViewmodel.streetRunners.observe(viewLifecycleOwner) { state ->
+            state.fold(
+                onSuccess = { req ->
+                    binding.initStreetRunners(req)
+                },
+                onError = {},
+                onLoading = {}
             )
         }
     }

@@ -24,7 +24,6 @@ class GoogleMapHelper(
         GoogleMap.OnMarkerClickListener { marker: Marker ->
             val tag = marker.tag as? CustomMarker<*> ?: return@OnMarkerClickListener false
             val item = tag.item as? BusStop ?: return@OnMarkerClickListener false
-            marker.showInfoWindow()
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15f))
             onGetForecastByStop(item.cp)
             false

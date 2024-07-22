@@ -24,7 +24,7 @@ class LoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        setOnApplyWindowInsetsListener()
+        binding.setOnApplyWindowInsetsListener()
         binding.observers()
         authenticationViewmodel.authentication()
     }

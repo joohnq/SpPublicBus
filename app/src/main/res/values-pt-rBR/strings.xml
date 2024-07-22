@@ -15,7 +15,7 @@
     <string name="loading_dots">...</string>
     <string name="type_here">Digite aqui uma %1$s</string>
     <string name="chip">Chip</string>
-    <string name="forecast_text">%1$s chegada as %2$s</string>
+    <string name="forecast_text">%1$s chegada às %2$s</string>
     <string name="stop_name">parada</string>
     <string name="bus_line_name">linha</string>
     <string name="letreiro">Letreiro</string>
